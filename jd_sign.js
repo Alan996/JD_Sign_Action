@@ -66,13 +66,13 @@ function sendNotificationIfNeed() {
   let text = "京东签到_" + new Date().Format('yyyy.MM.dd');
   let desp = fs.readFileSync(result_path, "utf8")
   let aaa = text.toString() + "\n" + desp.toString()
-  bot.send({
+  let bbb = bot.send({
       "msgtype": "text",
       "text": {
         "content": aaa
       },
     })
-  
+  console.log("钉钉发送："+bbb)
   // 去除末尾的换行
   let SCKEY = push_key.replace(/[\r\n]/g,"")
 
