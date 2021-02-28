@@ -1,7 +1,13 @@
 // version v0.0.1
 // create by zhihua
 // detail url: https://github.com/ruicky/jd_sign_bot
-
+const Bot = require('ding-bot-sdk')
+// Webhook地址: https://oapi.dingtalk.com/robot/send?access_token=xxx
+const bot = new Bot({
+  base_url: 'https://oapi.dingtalk.com/robot/send', // 可选 不填默认 https://oapi.dingtalk.com/robot/send
+  access_token: '8bdab2f4e2ebcfcb59ba7d6a15a7df2b91ca027e0f62c72a451b45277c089576', // Webhook地址后的access_token // 必填
+  secret: 'SEC008e272d849e43ab3ce932e113992b1d8eea796bc36da4a578461b758c4352c0' // 安全设置：加签的secret 必填
+})
 const exec = require('child_process').execSync
 const fs = require('fs')
 const rp = require('request-promise')
@@ -59,7 +65,14 @@ function sendNotificationIfNeed() {
 
   let text = "京东签到_" + new Date().Format('yyyy.MM.dd');
   let desp = fs.readFileSync(result_path, "utf8")
-
+  
+  await bot.send({
+      "msgtype": "text",
+      "text": {
+        "content": text + "\n" + desp
+      },
+    })
+  
   // 去除末尾的换行
   let SCKEY = push_key.replace(/[\r\n]/g,"")
 
